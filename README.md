@@ -4,7 +4,7 @@
 1. Clone the repository:
 
 ```bash
-https://github.com/MithilSave/Cyber-Threat-Intelligence-Dashboard
+git clone https://github.com/MithilSave/Cyber-Threat-Intelligence-Dashboard
 cd Cyber-Threat-Intelligence-Dashboard
 ```
 
