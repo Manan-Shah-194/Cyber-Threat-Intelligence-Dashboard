@@ -29,5 +29,5 @@ pip install -r requirements.txt
 5. Run the development server
 
 ```bash
-fastapi dev app.py
+fastapi dev main.py
 ```
