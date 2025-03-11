@@ -5,7 +5,7 @@
 
 ```bash
 https://github.com/MithilSave/Cyber-Threat-Intelligence-Dashboard
-cd mundra
+cd Cyber-Threat-Intelligence-Dashboard
 ```
 
 2. Create a virtual environment called `env`
