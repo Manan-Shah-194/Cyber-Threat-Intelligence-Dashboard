@@ -213,6 +213,106 @@ async def get_attack_log(log_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/reports")
+async def get_reports():
+    try:
+        with get_db() as db:
+            cursor = db.cursor(dictionary=True)
+            
+            cursor.execute("SELECT * FROM reports ORDER BY report_date DESC")
+            reports = cursor.fetchall()
+            cursor.close()
+            
+            return reports
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/reports")
+async def add_report(report: Report):
+    try:
+        with get_db() as db:
+            cursor = db.cursor()
+            
+            query = """INSERT INTO reports 
+                       (user_id, summary, threat_count) 
+                       VALUES (%s, %s, %s)"""
+            values = (report.user_id, report.summary, report.threat_count)
+            
+            cursor.execute(query, values)
+            db.commit()
+            cursor.close()
+            
+            return {"message": "Report added successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/reports/{report_id}")
+async def get_report(report_id: int):
+    try:
+        with get_db() as db:
+            cursor = db.cursor(dictionary=True)
+            
+            cursor.execute("SELECT * FROM reports WHERE report_id = %s", (report_id,))
+            report = cursor.fetchone()
+            cursor.close()
+            
+            if not report:
+                raise HTTPException(status_code=404, detail="Report not found")
+            
+            return report
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ========== New Endpoints for Threat Feeds ==========
+@app.get("/threat_feeds")
+async def get_threat_feeds():
+    try:
+        with get_db() as db:
+            cursor = db.cursor(dictionary=True)
+            
+            cursor.execute("SELECT * FROM threat_feeds ORDER BY last_updated DESC")
+            feeds = cursor.fetchall()
+            cursor.close()
+            
+            return feeds
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/threat_feeds")
+async def add_threat_feed(feed: ThreatFeed):
+    try:
+        with get_db() as db:
+            cursor = db.cursor()
+            
+            query = """INSERT INTO threat_feeds 
+                       (source_name, source_url) 
+                       VALUES (%s, %s)"""
+            values = (feed.source_name, feed.source_url)
+            
+            cursor.execute(query, values)
+            db.commit()
+            cursor.close()
+            
+            return {"message": "Threat feed added successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/threat_feeds/{feed_id}")
+async def get_threat_feed(feed_id: int):
+    try:
+        with get_db() as db:
+            cursor = db.cursor(dictionary=True)
+            
+            cursor.execute("SELECT * FROM threat_feeds WHERE feed_id = %s", (feed_id,))
+            feed = cursor.fetchone()
+            cursor.close()
+            
+            if not feed:
+                raise HTTPException(status_code=404, detail="Threat feed not found")
+            
+            return feed
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
