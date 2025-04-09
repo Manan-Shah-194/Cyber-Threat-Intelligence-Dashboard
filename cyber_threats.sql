@@ -55,3 +55,12 @@ SELECT * FROM users;
 
 --@block
 SELECT * FROM threats;
+
+--@block
+SELECT * FROM attack_logs;
+
+--@block
+SELECT * FROM reports;
+
+--@block
+SELECT * FROM threat_feeds;
