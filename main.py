@@ -263,7 +263,7 @@ async def get_report(report_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# ========== New Endpoints for Threat Feeds ==========
+
 @app.get("/threat_feeds")
 async def get_threat_feeds():
     try:
