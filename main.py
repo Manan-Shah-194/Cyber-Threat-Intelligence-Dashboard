@@ -29,7 +29,7 @@ class Threat(BaseModel):
     description: str
     severity: str
     source: str
-    reported_by: int
+    reported_by: int #user_id
 
 class AttackLog(BaseModel):
     threat_id: int
